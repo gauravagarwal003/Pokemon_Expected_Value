@@ -1,0 +1,40 @@
+name: Update Pokemon Card Prices
+on:
+  schedule:
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run the scraper
+        run: python update_prices.py
+
+      - name: Update csv files with new data
+        run: |
+          git config --global user.name "Update Pokemon Card Prices"
+          git config --global user.email "gagarwal003@gmail.com"
+          
+          git add stats.csv
+          git add dates.csv
+          
+          # Check if there are changes to commit
+          git commit -m "Updated Pokemon Card Prices" || echo "No changes to commit"
+          
+          git push
