@@ -32,6 +32,7 @@ jobs:
           git config --global user.email "gagarwal003@gmail.com"
           
           git add .
+          git add prices/.
           
           # Check if there are changes to commit
           git commit -m "Updated Pokemon Card Prices" || echo "No changes to commit"
