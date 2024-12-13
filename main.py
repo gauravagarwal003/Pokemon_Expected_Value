@@ -7,8 +7,6 @@ def clean_and_convert_dict(d):
             cleaned_dict[key] = int(value)
     return cleaned_dict
 
-
-
 pricesBySet = {}
 rarityProbabilitiesBySet = {}
 
@@ -21,7 +19,7 @@ with open('rarities.csv', 'r') as file:
 
 for setName in rarityProbabilitiesBySet:
     sum = 0
-    with open(f'{setName}.csv', 'r') as file:
+    with open(f'prices/{setName}.csv', 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if not row['extNumber'].isspace(
@@ -31,7 +29,7 @@ for setName in rarityProbabilitiesBySet:
                     row['marketPrice']) / rarityProbabilitiesBySet[setName][
                         row['extRarity']]
     
-    pricesBySet[setName] = sum
+    pricesBySet[setName] = round(sum,2)
 
 pricesBySet = dict(sorted(pricesBySet.items(), key=lambda item: item[1]))
 
