@@ -4,7 +4,7 @@ import requests
 import os
 
 urlBySet = {
-    "Base Set":
+    "Scarlet & Violet Base Set":
         "https://tcgcsv.com/tcgplayer/3/22873/ProductsAndPrices.csv",
     "Paldea Evolved":
         "https://tcgcsv.com/tcgplayer/3/23120/ProductsAndPrices.csv",
