@@ -23,7 +23,9 @@ urlBySet = {
     "Stellar Crown":
         "https://tcgcsv.com/tcgplayer/3/23537/ProductsAndPrices.csv",
     "Surging Sparks":
-        "https://tcgcsv.com/tcgplayer/3/23651/ProductsAndPrices.csv"
+        "https://tcgcsv.com/tcgplayer/3/23651/ProductsAndPrices.csv",
+    "Prismatic Evolutions":
+        "https://tcgcsv.com/tcgplayer/3/23821/ProductsAndPrices.csv"
 }
 
 def updatePrices():
@@ -64,12 +66,17 @@ for setName in rarityProbabilitiesBySet:
     with open(f'prices/{setName}.csv', 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
-            if not row['extNumber'].isspace(
-            ) and row['extRarity'] in rarityProbabilitiesBySet[
-                    setName] and float(row['marketPrice']) > 1:            
-                sum += float(
-                    row['marketPrice']) / rarityProbabilitiesBySet[setName][
-                        row['extRarity']]
+            if not row['extNumber'].isspace():
+                if row['marketPrice'] and float(row['marketPrice']) > 1:       
+                    if row['extRarity'] in rarityProbabilitiesBySet[setName]: 
+                        sum += float(row['marketPrice']) / rarityProbabilitiesBySet[setName][row['extRarity']]
+                    else:
+                        masterBallPattern = 'Master Ball Pattern'
+                        pokeBallPattern = 'Poke Ball Pattern'
+                        if masterBallPattern in row['name']:
+                            sum += float(row['marketPrice']) / rarityProbabilitiesBySet[setName][masterBallPattern]    
+                        elif pokeBallPattern in row['name']:
+                            sum += float(row['marketPrice']) / rarityProbabilitiesBySet[setName][pokeBallPattern]
     
     pricesBySet[setName] = round(sum,2)
     
